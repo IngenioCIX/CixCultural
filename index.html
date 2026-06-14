@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CIX Cultural — A venture studio building cultural infrastructure for public benefit.">
+<title>CIX Cultural </title>
+<style>
+/* ── Reset ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/* ── Tokens ─────────────────────────────────────── */
+:root {
+  --ink:         #0D1117;
+  --ink-2:       #161B22;
+  --ink-3:       #1E2530;
+  --warm:        #F5F2ED;
+  --muted:       rgba(245,242,237,0.52);
+  --muted-2:     rgba(245,242,237,0.25);
+  --border:      rgba(245,242,237,0.10);
+  --copper:      #B8864E;
+  --copper-dim:  rgba(184,134,78,0.12);
+  --copper-bdr:  rgba(184,134,78,0.30);
+  --cixtant:     #7C3AED;
+  --cixcult:     #B8864E;
+  --artdaq:      #7AA183;
+  --court:       #60A5FA;
+}
+
+/* ── Base ───────────────────────────────────────── */
+body {
+  background: var(--ink);
+  color: var(--warm);
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Type scale ─────────────────────────────────── */
+.display {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  letter-spacing: -0.025em;
+  line-height: 0.95;
+  color: var(--warm);
+}
+
+.display-sm {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 4vw, 2.75rem);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--warm);
+}
+
+.eyebrow {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--copper);
+  font-weight: 500;
+}
+
+.mono {
+  font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+p { color: var(--muted); line-height: 1.75; }
+a { color: var(--copper); text-decoration: none; transition: color 0.15s; }
+a:hover { color: var(--warm); }
+
+/* ── Layout ─────────────────────────────────────── */
+.section {
+  padding: 6rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section--full {
+  max-width: none;
+  padding: 0;
+}
+
+.section--border {
+  border-top: 1px solid var(--border);
+}
+
+/* ── Nav ────────────────────────────────────────── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13,17,23,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+
+.nav-brand {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  color: var(--warm);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.15s;
+}
+
+.nav-links a:hover { color: var(--warm); }
+
+/* ── Hero ───────────────────────────────────────── */
+.hero {
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 2rem 4rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.hero-eyebrow {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* The clave — 5-beat rhythmic notation */
+.clave {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.clave-beat {
+  height: 3px;
+  border-radius: 2px;
+  background: var(--copper);
+  opacity: 0;
+  animation: clave-in 0.4s ease forwards;
+}
+
+/* Clave pattern: 3-2 son clave — beats 1, 2+, 3+ / 1, 2 */
+.clave-beat:nth-child(1) { width: 18px; animation-delay: 0.1s; }
+.clave-beat:nth-child(2) { width: 8px;  animation-delay: 0.3s; opacity: 0; background: transparent; }
+.clave-beat:nth-child(3) { width: 18px; animation-delay: 0.5s; }
+.clave-beat:nth-child(4) { width: 8px;  animation-delay: 0.6s; opacity: 0; background: transparent; }
+.clave-beat:nth-child(5) { width: 18px; animation-delay: 0.7s; }
+.clave-beat:nth-child(6) { width: 24px; animation-delay: 0.0s; opacity: 0; background: transparent; }
+.clave-beat:nth-child(7) { width: 18px; animation-delay: 1.0s; }
+.clave-beat:nth-child(8) { width: 14px; animation-delay: 0.0s; opacity: 0; background: transparent; }
+.clave-beat:nth-child(9) { width: 18px; animation-delay: 1.3s; }
+
+@keyframes clave-in {
+  from { opacity: 0; transform: scaleX(0); transform-origin: left; }
+  to   { opacity: 1; transform: scaleX(1); }
+}
+
+.hero-headline { margin-bottom: 2rem; }
+
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.75;
+  margin-bottom: 3rem;
+}
+
+.hero-thesis {
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  color: var(--warm);
+  max-width: 680px;
+  line-height: 1.65;
+  border-left: 2px solid var(--copper);
+  padding-left: 1.5rem;
+  margin-bottom: 3rem;
+  font-style: italic;
+}
+
+.hero-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.7rem 1.4rem;
+  background: var(--copper-dim);
+  border: 1px solid var(--copper-bdr);
+  border-radius: 6px;
+  color: var(--copper);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-primary:hover {
+  background: rgba(184,134,78,0.20);
+  border-color: var(--copper);
+  color: var(--copper);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.7rem 1.4rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.btn-ghost:hover { border-color: var(--muted-2); color: var(--warm); }
+
+/* ── Studio section ─────────────────────────────── */
+.studio-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.studio-stat {
+  margin-bottom: 2rem;
+}
+
+.studio-stat-value {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--copper);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.studio-stat-label {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.studio-pillars {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.pillar {
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.02);
+}
+
+.pillar-label {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 0.4rem;
+}
+
+.pillar-title {
+  font-size: 1rem;
+  color: var(--warm);
+  margin-bottom: 0.35rem;
+  font-family: system-ui, sans-serif;
+  font-weight: 600;
+}
+
+.pillar p { font-size: 13px; line-height: 1.6; }
+
+/* ── Research section ───────────────────────────── */
+.papers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+}
+
+.paper-card {
+  padding: 1.75rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.02);
+  transition: border-color 0.15s, background 0.15s;
+  text-decoration: none;
+  display: block;
+}
+
+.paper-card:hover {
+  border-color: rgba(184,134,78,0.30);
+  background: var(--copper-dim);
+  color: inherit;
+}
+
+.paper-number {
+  font-family: system-ui, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 0.75rem;
+}
+
+.paper-title {
+  font-size: 1rem;
+  color: var(--warm);
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+  font-family: 'Georgia', serif;
+}
+
+.paper-abstract {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 1rem;
+}
+
+.paper-meta {
+  font-family: system-ui, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--muted-2);
+}
+
+.paper-card--forthcoming {
+  border-style: dashed;
+  opacity: 0.7;
+}
+
+/* ── Platform section ───────────────────────────── */
+.platform-featured {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  padding: 3rem;
+  border: 1px solid rgba(124,58,237,0.25);
+  border-radius: 14px;
+  background: rgba(124,58,237,0.05);
+  margin-bottom: 1.5rem;
+}
+
+.platform-label {
+  font-family: system-ui, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.platform-name {
+  font-family: system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.platform-tagline {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.platform-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.chip {
+  font-family: system-ui, sans-serif;
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid;
+}
+
+.chip-purple { background: rgba(124,58,237,0.12); color: #A78BFA; border-color: rgba(124,58,237,0.30); }
+.chip-copper { background: var(--copper-dim); color: var(--copper); border-color: var(--copper-bdr); }
+.chip-green  { background: rgba(122,161,131,0.12); color: #7AA183; border-color: rgba(122,161,131,0.30); }
+.chip-blue   { background: rgba(96,165,250,0.10); color: #60A5FA; border-color: rgba(96,165,250,0.25); }
+
+.platform-visual {
+  background: rgba(124,58,237,0.08);
+  border: 1px solid rgba(124,58,237,0.20);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.pv-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-family: system-ui, sans-serif;
+  font-size: 12px;
+}
+
+.pv-row:last-child { border-bottom: none; }
+.pv-label { color: rgba(167,139,250,0.7); }
+.pv-val   { color: var(--warm); font-weight: 500; }
+.pv-val.prime { color: #34D399; }
+.pv-val.warn  { color: #F59E0B; }
+
+.sub-platforms {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.sub-platform {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.02);
+  transition: border-color 0.15s;
+  text-decoration: none;
+  display: block;
+}
+
+.sub-platform:hover { border-color: var(--muted-2); }
+
+.sp-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.sp-name {
+  font-family: system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--warm);
+  margin-bottom: 0.3rem;
+}
+
+.sp-desc { font-size: 12px; line-height: 1.6; }
+
+/* ── CIX Cultural ───────────────────────────────── */
+.cixcult-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+  padding: 3rem;
+  border: 1px solid var(--copper-bdr);
+  border-radius: 14px;
+  background: var(--copper-dim);
+}
+
+.entity-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: system-ui, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--copper);
+  background: rgba(184,134,78,0.10);
+  border: 1px solid var(--copper-bdr);
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 1.25rem;
+}
+
+.deployments {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.deployment {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+
+.deployment:hover { border-color: var(--copper-bdr); }
+.dep-name { font-family: system-ui, sans-serif; font-size: 13px; font-weight: 500; color: var(--warm); }
+.dep-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.dep-status {
+  font-family: system-ui, sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.dep-live      { background: rgba(52,211,153,0.12); color: #34D399; border: 1px solid rgba(52,211,153,0.25); }
+.dep-research { background: var(--copper-dim); color: var(--copper); border: 1px solid var(--copper-bdr); }
+.dep-transfer { background: rgba(96,165,250,0.10); color: #60A5FA; border: 1px solid rgba(96,165,250,0.20); }
+
+/* ── About ──────────────────────────────────────── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.about-pull {
+  font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+  color: var(--warm);
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.clave-note {
+  font-family: system-ui, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Contact ────────────────────────────────────── */
+.contact-block {
+  padding: 4rem;
+  background: var(--ink-2);
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.contact-block .display-sm { margin-bottom: 1rem; }
+.contact-block p { margin-bottom: 2rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+/* ── Footer ─────────────────────────────────────── */
+footer {
+  padding: 2rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: system-ui, sans-serif;
+  font-size: 11px;
+  color: var(--muted-2);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* ── Responsive ─────────────────────────────────── */
+@media (max-width: 860px) {
+  .studio-grid,
+  .papers-grid,
+  .platform-featured,
+  .cixcult-block,
+  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .sub-platforms { grid-template-columns: 1fr 1fr; }
+  .platform-featured { padding: 2rem; }
+  .cixcult-block { padding: 2rem; }
+}
+
+@media (max-width: 540px) {
+  .sub-platforms { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .hero { min-height: 80vh; }
+  .contact-block { padding: 3rem 1.5rem; }
+  .section { padding: 4rem 1.25rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clave-beat { animation: none !important; opacity: 1 !important; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-brand">CIX Cultural</a>
+  <ul class="nav-links">
+    <li><a href="#studio">Studio</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#platforms">Platforms</a></li>
+    <li><a href="#cixcultural">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header>
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <span class="eyebrow">CIX Cultural · Venture Studio</span>
+      <div class="clave" aria-hidden="true">
+        <div class="clave-beat"></div>
+        <div class="clave-beat"></div>
+        <div class="clave-beat"></div>
+        <div class="clave-beat"></div>
+        <div class="clave-beat"></div>
+        <div class="clave-beat"></div>
+        <div class="clave-beat"></div>
+        <div class="clave-beat"></div>
+        <div class="clave-beat"></div>
+      </div>
+    </div>
+
+    <div class="hero-headline">
+      <div class="display">Making<br>civic complexity<br>legible.</div>
+    </div>
+
+    <p class="hero-sub">
+      We translate complex macro-data, institutional funding streams, and economic metrics into open diagnostic architecture—building systemic transparency and resilience across cultural markets.
+    </p>
+
+    <div class="hero-links">
+      <a href="#platforms" class="btn-primary">Our platforms →</a>
+      <a href="#research" class="btn-ghost">Research programme</a>
+      <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6427278" target="_blank" class="btn-ghost">IFD Paper ↗</a>
+    </div>
+  </div>
+</header>
+
+<section class="section section--border" id="studio">
+  <h2 class="eyebrow" style="margin-bottom: 3rem;">The studio</h2>
+  <div class="studio-grid">
+    <div>
+      <h3 class="display-sm" style="margin-bottom: 1.5rem;">We map where<br>civic complexity<br>meets labor reality.</h3>
+      <p style="margin-bottom: 1.5rem;">CIX Cultural is a public benefit venture studio founded to protect and stabilize the civic and cultural sectors. We operate on a clear premise: the structural forces, funding asymmetries, and systemic frictions that destabilize cultural markets and their constituents can be quantified, visualized, and actively managed.</p>
+      <p style="margin-bottom: 1.5rem;">Utilizing the foundational analytical rigor pioneered by our commercial sister entity, Ingenio CIX, we deploy proprietary diagnostic engines to translate dense macro-data into open, high-fidelity infrastructure tools. Our focus is structural transparency—building benchmarks and resilience metrics for performing arts networks, cultural workers, and civic ecosystems.</p>
+      <p>By treating cultural platforms and public workflows as essential civic infrastructure, we provide independent benchmarking and clear decision architecture previously unavailable to the sector.</p>
+    </div>
+    <div>
+      <div class="studio-stat">
+        <div class="studio-stat-value">CIX</div>
+      </div>
+      <div class="studio-pillars" style="margin-top: 2rem;">
+        <div class="pillar">
+          <div class="pillar-label">Civics</div>
+          <div class="pillar-title">C — Civic Equity</div>
+          <p>Diagnostic architecture that decentralizes institutional intelligence, granting labor networks merited footing in funding landscapes, while providing grounded decision frameworks that empower everyday citizens to navigate intimidating municipal systems.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-label">Infrastructure</div>
+          <div class="pillar-title">I — Resilience Infrastructure</div>
+          <p>High-density data modeling and index systems that track structural risk, capitalization limits, and resource distribution across cultural markets and civil asset ecosystems.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-label">Experience</div>
+          <div class="pillar-title">X — Legibility Experience</div>
+          <p>Archival-grade terminal interfaces built to make massive datasets immediately scannable, legible, and actionable for administrators, researchers, and citizens.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--border" id="research">
+  <h2 class="eyebrow" style="margin-bottom: 1rem;">Research programme</h2>
+  <h3 class="display-sm" style="margin-bottom: 0.75rem;">The Organizational<br>Resilience Index (ORI)</h3>
+  <p style="max-width: 600px; margin-bottom: 0.5rem;">A specialized sector-diagnostic engine that adapts advanced corporate finance frameworks to map structural volatility and value opportunities across performing arts markets. The ORI isolates institutional friction to calculate real-time runway, cost floors, and capital durability metrics for civic infrastructure.</p>
+
+  <div class="papers-grid">
+    <!-- LAYER 1 PAPER -->
+    <div class="paper-card">
+      <div class="paper-number">ORI Module I · Active Framework</div>
+      <div class="paper-title">Layer 1: Stress & Survival Underwriting</div>
+      <div class="paper-abstract">Decomposes absolute operational runway against a strict Structural Cost Floor. Introduces a Pressure Index that evaluates the existential threshold where fixed systemic costs consume gross revenue and derives the a PRI (Program-Related Investment) underwriting line to map philanthropic capital directly to organizational survival time.</div>
+      <div class="paper-meta">· CIX Cultural Systems · Core Specification</div>
+    </div>
+
+    <!-- LAYER 2 PAPER -->
+    <div class="paper-card">
+      <div class="paper-number">ORI Module II · Active Framework</div>
+      <div class="paper-title">Layer 2: Return on Infrastructure Capital (ROIC)</div>
+      <div class="paper-abstract">Redefines corporate ROIC for cultural markets. Establishes the Earned Ratio Baseline to evaluate an institution's structural dependency on continuous philanthropic intervention versus baseline box-office self-sufficiency.</div>
+      <div class="paper-meta">· CIX Cultural Systems · Performance Taxonomy</div>
+    </div>
+
+    <!-- LAYER 3 PAPER -->
+    <div class="paper-card">
+      <div class="paper-number">ORI Module III · In Progress</div>
+      <div class="paper-title">Layer 3: Asset Protection Value & Reserve Absorption</div>
+      <div class="paper-abstract">Adapts Adjusted Present Value (APV) modeling to quantify long-term organizational durability. Maps the multi-year timeline of negative operating surpluses against endowment liquidity depth, factoring in the Funding Stability Paradox and Debt Drag thresholds.</div>
+      <div class="paper-meta">Gil, A. (forthcoming) · CIX Cultural / Ingenio CIX</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--border" id="platforms">
+  <h2 class="eyebrow" style="margin-bottom: 3rem;">Platforms</h2>
+
+  <!-- FLAGSHIP PLATFORM: ARTDAQ -->
+  <!-- FLAGSHIP PLATFORMS GRID CONFIGURATION -->
+<div class="platforms-duo-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 3rem; align-items: stretch; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 3rem;">
+  
+  <!-- LEFT PANEL: ARTDAQ (INSTITUTION FACING) -->
+  <div class="platform-card" style="display: flex; flex-direction: column; justify-content: space-between; gap: 2rem;">
+    <div class="platform-meta">
+      <div class="platform-label" style="color: var(--sovereign-maroon, #8B1E3F); letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.75rem; font-weight: 600;">Flagship Product · CIX Cultural</div>
+      <div class="platform-name" style="color: var(--sovereign-maroon, #8B1E3F); font-size: 2.5rem; font-weight: 700; margin: 0.5rem 0 1rem 0;">ArtDaq</div>
+      <p class="platform-tagline" style="line-height: 1.6; margin-bottom: 2rem; color: #DDD; font-size: 0.95rem;">Cultural sector intelligence platform implementing the Organizational Resilience Index (ORI). Assesses structural risk, capitalization limits, and systemic friction across performing arts networks and civic infrastructure for administrators, philanthropic foundations, and labor networks.</p>
+      
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
+        <a href="https://artdaq.app" target="_blank" class="btn-primary" style="color: var(--sovereign-maroon, #8B1E3F); border-color: rgba(139,30,63,0.40); background: rgba(139,30,63,0.12); padding: 0.75rem 1.5rem; text-decoration: none; font-weight: bold; font-family: monospace; font-size: 0.8rem;">artdaq.app ↗</a>
+        <a href="https://organizational-resilience-index.onrender.com" target="_blank" class="btn-ghost" style="padding: 0.75rem 1.5rem; text-decoration: none; color: #888; border: 1px solid rgba(255,255,255,0.15); font-family: monospace; font-size: 0.8rem;">index-engine ↗</a>
+      </div>
+    </div>
+
+    <!-- LIVE TERMINAL DATA SIDEBAR (POPULATED WITH MET OPERA METRICS) -->
+    <div class="platform-visual" style="font-family: monospace; font-size: 0.85rem; line-height: 1.4; background: rgba(20,20,20,0.4); padding: 1.5rem; border: 1px solid rgba(255,255,255,0.05); margin-top: auto;">
+      <div class="mono" style="margin-bottom: 0.75rem; color: rgba(139,30,63,0.7); font-weight: bold;">
+        // Live Target Assessment · ORI_ENGINE_v1.0
+      </div>
+      
+      <div style="border-bottom: 1px dashed rgba(255,255,255,0.15); padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
+        <div style="font-weight: bold; color: #FFF; font-size: 0.95rem;">Metropolitan Opera Association Inc</div>
+        <div style="color: #888; font-size: 0.75rem;">New York, NY · EIN 131624087</div>
+      </div>
+
+      <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid #EF4444; padding: 0.5rem; margin-bottom: 0.75rem;">
+        <div style="color: #EF4444; font-weight: bold; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">
+          ⚠️ STATUS: STRUCTURAL EXHAUSTION [100/100]
+        </div>
+      </div>
+
+      <div style="margin-bottom: 0.5rem;">
+        <div style="color: var(--sovereign-maroon, #8B1E3F); font-weight: bold; font-size: 0.75rem; letter-spacing: 0.02em;">LAYER 1 — STRESS (SURVIVAL)</div>
+        <div class="pv-row" style="display: flex; justify-content: space-between; margin: 0.2rem 0;"><span class="pv-label" style="color: #888;">Months of Runway</span><span class="pv-val" style="color: #EF4444; font-weight: bold;">3.0 mo</span></div>
+        <div class="pv-row" style="display: flex; justify-content: space-between; margin: 0.2rem 0;"><span class="pv-label" style="color: #888;">Structural Cost Floor</span><span class="pv-val" style="color: #FFF;">$182,738,340 /yr</span></div>
+      </div>
+
+      <div style="margin-bottom: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.35rem;">
+        <div style="color: var(--sovereign-maroon, #8B1E3F); font-weight: bold; font-size: 0.75rem; letter-spacing: 0.02em;">LAYER 2 — EFFICIENCY (ROIC)</div>
+        <div class="pv-row" style="display: flex; justify-content: space-between; margin: 0.2rem 0;"><span class="pv-label" style="color: #888;">Efficiency Score</span><span class="pv-val" style="color: #EF4444; font-weight: bold;">16.6 [LOW]</span></div>
+      </div>
+
+      <div style="border-top: 1px dashed rgba(255,255,255,0.15); padding-top: 0.5rem; font-size: 0.75rem; color: #888;">
+        <div style="display: flex; justify-content: space-between; margin: 0.15rem 0;"><span>· Labor Floor:</span><span style="color: #FFF;">$142,976,181</span></div>
+        <div style="display: flex; justify-content: space-between; margin: 0.15rem 0;"><span>· Venue Floor:</span><span style="color: #FFF;">$19,998,314</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL: COURTMOTION (CITIZEN FACING) -->
+  <div class="platform-card" style="display: flex; flex-direction: column; justify-content: space-between; gap: 2rem;">
+    <div class="platform-meta">
+      <div class="platform-label" style="color: #34D399; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.75rem; font-weight: 600;">Flagship Product · Citizen Infrastructure</div>
+      <div class="platform-name" style="color: #34D399; font-size: 2.5rem; font-weight: 700; margin: 0.5rem 0 1rem 0;">CourtMotion</div>
+      <p class="platform-tagline" style="line-height: 1.6; margin-bottom: 2rem; color: #DDD; font-size: 0.95rem;">Citizen-facing decision architecture for *pro se* litigants navigating housing appeals. Translates complex municipal procedural pipelines into clear, actionable legal checkpoints—shielding unrepresented tenants from systemic defaults.</p>
+      
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
+        <a href="https://courtnav.vercel.app" target="_blank" class="btn-primary" style="color: #34D399; border-color: rgba(52,211,153,0.40); background: rgba(52,211,153,0.12); padding: 0.75rem 1.5rem; text-decoration: none; font-weight: bold; font-family: monospace; font-size: 0.8rem;">courtnav.vercel.app ↗</a>
+      </div>
+    </div>
+
+    <!-- LIVE DECISION ARCHITECTURE SIDEBAR (HOUSING APPEAL PATHWAY) -->
+    <div class="platform-visual" style="font-family: monospace; font-size: 0.85rem; line-height: 1.4; background: rgba(20,20,20,0.4); padding: 1.5rem; border: 1px solid rgba(255,255,255,0.05); margin-top: auto;">
+      <div class="mono" style="margin-bottom: 0.75rem; color: rgba(52,211,153,0.7); font-weight: bold;">
+        // Procedural Navigator · HOUSING_APPEAL_v1.0
+      </div>
+      
+      <div style="border-bottom: 1px dashed rgba(255,255,255,0.15); padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
+        <div style="font-weight: bold; color: #FFF; font-size: 0.95rem;">Tenant Action Pipeline</div>
+        <div style="color: #888; font-size: 0.75rem;">Jurisdiction: NY Supreme Court · Appellate Term</div>
+      </div>
+
+      <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid #F59E0B; padding: 0.5rem; margin-bottom: 0.75rem;">
+        <div style="color: #F59E0B; font-weight: bold; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">
+          ⚠️ CURRENT ACTION: STAY OF EVICTION
+        </div>
+      </div>
+
+      <div style="margin-bottom: 0.5rem;">
+        <div style="color: #34D399; font-weight: bold; font-size: 0.75rem; letter-spacing: 0.02em; margin-bottom: 0.35rem;">PROCEDURAL CHECKPOINTS</div>
+        
+        <div style="display: flex; gap: 0.5rem; margin: 0.25rem 0; align-items: flex-start;">
+          <span style="color: #34D399;">[✓]</span>
+          <div><span style="color: #FFF; font-weight: bold;">Step 1: Notice of Appeal</span></div>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; margin: 0.4rem 0; align-items: flex-start;">
+          <span style="color: #F59E0B;">[➔]</span>
+          <div><span style="color: #FFF; font-weight: bold;">Step 2: Stay Application (OSC)</span></div>
+        </div>
+      </div>
+
+      <div style="border-top: 1px dashed rgba(255,255,255,0.15); padding-top: 0.5rem; font-size: 0.75rem; color: #888;">
+        <div class="pv-row" style="display: flex; justify-content: space-between; margin: 0.15rem 0;"><span>· Jurisdictional Window:</span><span style="color: #34D399;">Active (Valid)</span></div>
+        <div class="pv-row" style="display: flex; justify-content: space-between; margin: 0.15rem 0;"><span>· Automatic Stay Status:</span><span style="color: #EF4444; font-weight: bold;">Discretionary Bond</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  <!-- COMPLEMENTARY SUB-PLATFORMS & ACTIVE PIPELINE -->
+  <div class="sub-platforms" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+    
+    <!-- SUB-PLATFORM 1: THE UNDERLYING ENGINE SUITE -->
+    <div class="sub-platform" style="border: 1px solid rgba(255,255,255,0.08); padding: 1.5rem; background: rgba(255,255,255,0.02);">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+        <div class="sp-dot" style="width: 8px; height: 8px; border-radius: 50%; background: #7AA183;"></div>
+        <div class="sp-name" style="color: #7AA183; font-family: monospace; font-weight: bold; font-size: 1.1rem;">ECI &amp; ORI</div>
+      </div>
+      <p class="sp-desc" style="color: #AAA; font-size: 0.85rem; line-height: 1.5; margin-bottom: 1.25rem;">Economic Capacity Index &amp; Organizational Resilience Index. Combined quantitative diagnostic backends mapping capitalization minimums and risk vectors across civic ecosystems.</p>
+      <div><span class="chip chip-green" style="font-size: 0.7rem; padding: 0.25rem 0.5rem; border: 1px solid rgba(122,161,131,0.3); background: rgba(122,161,131,0.1); color: #7AA183; font-family: monospace;">Core Engine Architecture</span></div>
+    </div>
+
+    <!-- SUB-PLATFORM 2: EXPERIMENTAL / DISTRIBUTION -->
+    <div class="sub-platform" style="border: 1px solid rgba(255,255,255,0.08); padding: 1.5rem; background: rgba(255,255,255,0.02);">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+        <div class="sp-dot" style="width: 8px; height: 8px; border-radius: 50%; background: #B85A3A;"></div>
+        <div class="sp-name" style="color: #B85A3A; font-family: monospace; font-weight: bold; font-size: 1.1rem;">Kaskazi</div>
+      </div>
+      <p class="sp-desc" style="color: #AAA; font-size: 0.85rem; line-height: 1.5; margin-bottom: 1.25rem;">Experimental cultural asset distribution pipeline and fluid micro-payment architecture. Measures micro-labor value generation and optimizes baseline resource discovery pools.</p>
+      <div><span class="chip chip-copper" style="font-size: 0.7rem; padding: 0.25rem 0.5rem; border: 1px solid rgba(184,90,58,0.3); background: rgba(184,90,58,0.1); color: #B85A3A; font-family: monospace;">In Production / Pre-deployment</span></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section section--border" id="cixcultural">
+  <h2 class="eyebrow" style="margin-bottom: 3rem;">Commercial entity</h2>
+  
+  <div class="cixcult-block">
+    <div>
+      <div class="entity-badge">Commercial Entity</div>
+      <h3 class="display-sm" style="margin-bottom: 1rem;">Ingenio CIX</h3>
+      <p style="margin-bottom: 1.25rem;">Ingenio CIX is the commercial entity with whom we share analytical rigor.</p>
+       
+      <a href="https://ingeniocix.com" target="_blank" class="btn-primary">ingeniocix.com →</a>
+    </div>
+    
+    <div class="deployments">
+      <div class="eyebrow" style="margin-bottom: 1rem;">Active deployments</div>
+      
+      <a href="https://cixtant.com" target="_blank" class="deployment">
+        <div>
+          <div class="dep-name">Cixtant</div>
+          <div class="dep-desc">Sovereign market intelligence</div>
+        </div>
+        <span class="dep-status dep-live">Live</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="contact-block" id="contact" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 4rem;">
+  <div class="eyebrow" style="margin-bottom: 1.5rem; display: block;">Institutional inquiries</div>
+  <div class="display-sm" style="margin-bottom: 1.5rem; color: #FFF; font-size: 2rem; font-weight: 700;">Engage the Studio</div>
+  <p style="line-height: 1.6; color: #DDD; max-width: 600px; margin-bottom: 2rem;">
+    For philanthropic underwriting, strategic research collaborations, municipal integration, or institutional index access, reach us directly. We respond to inquiries from cultural sector administrators, foundational boards, policy networks, and labor advocates seeking to deploy data-driven resilience models.
+  </p>
+  <a href="mailto:studio@cixcultural.org" class="btn-primary" style="display: inline-flex; align-items: center; color: var(--sovereign-maroon, #8B1E3F); border-color: rgba(139,30,63,0.40); background: rgba(139,30,63,0.12); padding: 0.75rem 1.5rem; text-decoration: none; font-weight: bold; font-family: monospace; font-size: 0.85rem;">
+    Contact CIX Cultural →
+  </a>
+</div>
+
+<footer>
+  <span>© 2025 CIX Cultural · All rights reserved</span>
+  <span style="display: flex; gap: 1.5rem;">
+    <a href="https://cixcultural.org" style="color: var(--muted-2); font-size: 11px;">CIX Cultural</a>
+    <a href="https://artdaq.app" style="color: var(--muted-2); font-size: 11px;">ArtDaq</a>
+  </span>
+</footer>
+
+</body>
+</html>
