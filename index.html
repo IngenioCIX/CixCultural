@@ -6,30 +6,31 @@
 <meta name="description" content="CIX Cultural — A venture studio building cultural infrastructure for public benefit.">
 <title>CIX Cultural</title>
 <style>
-/* ── Reset ─────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
-/* ── Tokens ─────────────────────────────────────── */
 :root {
-  --ink:         #0D1117;
-  --ink-2:       #161B22;
-  --ink-3:       #1E2530;
-  --warm:        #F5F2ED;
-  --muted:       rgba(245,242,237,0.52);
-  --muted-2:     rgba(245,242,237,0.25);
-  --border:      rgba(245,242,237,0.10);
+  /* Background: near-black with maroon undertone — not black, not maroon */
+  --ink:         #0D0508;
+  --ink-2:       #130A0D;
+  --ink-3:       #1A0F12;
+
+  --warm:        #F5F0EE;
+  --muted:       rgba(245,240,238,0.52);
+  --muted-2:     rgba(245,240,238,0.25);
+
+  /* True maroon: dark, warm, no pink/blue cast */
+  --maroon:      #7A1828;
+  --maroon-dim:  rgba(122,24,40,0.14);
+  --maroon-bdr:  rgba(122,24,40,0.38);
+  --maroon-glow: rgba(122,24,40,0.07);
+  --border:      rgba(122,24,40,0.22);
+
   --copper:      #B8864E;
-  --copper-dim:  rgba(184,134,78,0.12);
-  --copper-bdr:  rgba(184,134,78,0.30);
-  --cixtant:     #7C3AED;
-  --cixcult:     #B8864E;
   --artdaq:      #7AA183;
-  --court:       #60A5FA;
-  --sovereign-maroon: #8B1E3F;
+  --court:       #34D399;
 }
 
-/* ── Base ───────────────────────────────────────── */
 body {
   background: var(--ink);
   color: var(--warm);
@@ -39,7 +40,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Type scale ─────────────────────────────────── */
 .display {
   font-family: system-ui, -apple-system, sans-serif;
   font-weight: 700;
@@ -63,8 +63,8 @@ body {
   font-size: 10px;
   letter-spacing: 0.20em;
   text-transform: uppercase;
-  color: var(--copper);
-  font-weight: 500;
+  color: var(--maroon);
+  font-weight: 600;
 }
 
 .mono {
@@ -75,31 +75,23 @@ body {
 }
 
 p { color: var(--muted); line-height: 1.75; }
-a { color: var(--copper); text-decoration: none; transition: color 0.15s; }
+a { color: var(--maroon); text-decoration: none; transition: color 0.15s; }
 a:hover { color: var(--warm); }
 
-/* ── Layout ─────────────────────────────────────── */
 .section {
   padding: 6rem 2rem;
   max-width: 1100px;
   margin: 0 auto;
 }
 
-.section--full {
-  max-width: none;
-  padding: 0;
-}
+.section--border { border-top: 1px solid var(--border); }
 
-.section--border {
-  border-top: 1px solid var(--border);
-}
-
-/* ── Nav ────────────────────────────────────────── */
+/* ── Nav ── */
 nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(13,17,23,0.92);
+  background: rgba(13,5,8,0.94);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   padding: 0 2rem;
@@ -113,16 +105,11 @@ nav {
   font-family: system-ui, -apple-system, sans-serif;
   font-weight: 700;
   font-size: 15px;
-  letter-spacing: -0.01em;
   color: var(--warm);
   text-decoration: none;
 }
 
-.nav-links {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
-}
+.nav-links { display: flex; gap: 2rem; list-style: none; }
 
 .nav-links a {
   font-family: system-ui, -apple-system, sans-serif;
@@ -131,11 +118,12 @@ nav {
   text-transform: uppercase;
   color: var(--muted);
   transition: color 0.15s;
+  text-decoration: none;
 }
 
-.nav-links a:hover { color: var(--warm); }
+.nav-links a:hover { color: var(--maroon); }
 
-/* ── Hero ───────────────────────────────────────── */
+/* ── Hero ── */
 .hero {
   min-height: 92vh;
   display: flex;
@@ -144,7 +132,6 @@ nav {
   padding: 6rem 2rem 4rem;
   max-width: 1100px;
   margin: 0 auto;
-  position: relative;
 }
 
 .hero-eyebrow {
@@ -152,33 +139,44 @@ nav {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  flex-wrap: wrap;
 }
 
-/* The clave — 5-beat rhythmic notation */
+/* ── 2/3 Clave — spatial gap between the 2 and the 3 ──
+   The "2" side: two beats close together.
+   The "3" side: three beats close together.
+   The gap is a visible empty space element, not just timing.
+   Color: maroon.
+──────────────────────────────────────────────────────── */
 .clave {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .clave-beat {
   height: 3px;
   border-radius: 2px;
-  background: var(--copper);
+  background: var(--maroon);
   opacity: 0;
-  animation: clave-in 0.4s ease forwards;
+  animation: clave-in 0.30s ease forwards;
 }
 
-/* Clave pattern: 2-3 clave — beats  2, 3 / 1, 2+ 4/
-.clave-beat:nth-child(1) { width: 18px; animation-delay: 0.2s; }
-.clave-beat:nth-child(2) { width: 8px;  animation-delay: 0.0s; opacity: 0; background: transparent; }
-.clave-beat:nth-child(3) { width: 18px; animation-delay: 0.4s; }
-.clave-beat:nth-child(4) { width: 24px;  animation-delay: 0.0s; opacity: 0; background: transparent; }
-.clave-beat:nth-child(5) { width: 18px; animation-delay: 0.6s; }
-.clave-beat:nth-child(6) { width: 8px; animation-delay: 0.0s; opacity: 0; background: transparent; }
-.clave-beat:nth-child(7) { width: 18px; animation-delay: 0.8s; }
-.clave-beat:nth-child(8) { width: 8px; animation-delay: 0.0s; opacity: 0; background: transparent; }
-.clave-beat:nth-child(9) { width: 18px; animation-delay: 1.1s; }
+/* the spatial gap between the 2-side and 3-side */
+.clave-gap {
+  width: 14px; /* visible empty space */
+  height: 3px;
+  background: transparent;
+}
+
+/* 2-side: beats 1 and 2 */
+.clave-beat:nth-child(1) { width: 18px; animation-delay: 0.10s; }
+.clave-beat:nth-child(2) { width: 18px; animation-delay: 0.30s; }
+/* .clave-gap:nth-child(3) is the spatial gap — no animation needed */
+/* 3-side: beats 3, 4, 5 */
+.clave-beat:nth-child(4) { width: 18px; animation-delay: 0.65s; }
+.clave-beat:nth-child(5) { width: 18px; animation-delay: 0.85s; }
+.clave-beat:nth-child(6) { width: 18px; animation-delay: 1.05s; }
 
 @keyframes clave-in {
   from { opacity: 0; transform: scaleX(0); transform-origin: left; }
@@ -195,33 +193,29 @@ nav {
   margin-bottom: 3rem;
 }
 
-.hero-links {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
+.hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
 
 .btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 0.7rem 1.4rem;
-  background: var(--copper-dim);
-  border: 1px solid var(--copper-bdr);
+  background: var(--maroon-dim);
+  border: 1px solid var(--maroon-bdr);
   border-radius: 6px;
-  color: var(--copper);
+  color: var(--maroon);
   font-family: system-ui, -apple-system, sans-serif;
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   text-decoration: none;
-  transition: background 0.15s, border-color 0.15s;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
 .btn-primary:hover {
-  background: rgba(184,134,78,0.20);
-  border-color: var(--copper);
-  color: var(--copper);
+  background: rgba(122,24,40,0.22);
+  border-color: var(--maroon);
+  color: var(--warm);
 }
 
 .btn-ghost {
@@ -243,7 +237,7 @@ nav {
 
 .btn-ghost:hover { border-color: var(--muted-2); color: var(--warm); }
 
-/* ── Studio section ─────────────────────────────── */
+/* ── Studio ── */
 .studio-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -251,39 +245,34 @@ nav {
   align-items: start;
 }
 
-.studio-stat {
-  margin-bottom: 2rem;
-}
-
 .studio-stat-value {
   font-family: system-ui, -apple-system, sans-serif;
   font-size: 3rem;
   font-weight: 700;
-  color: var(--copper);
+  color: var(--maroon);
   letter-spacing: -0.03em;
   line-height: 1;
-  margin-bottom: 0.25rem;
+  margin-bottom: 2rem;
 }
 
-.studio-pillars {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
+.studio-pillars { display: flex; flex-direction: column; gap: 1.5rem; }
 
 .pillar {
   padding: 1.25rem 1.5rem;
   border: 1px solid var(--border);
   border-radius: 10px;
-  background: rgba(255,255,255,0.02);
+  background: var(--maroon-glow);
+  transition: border-color 0.15s;
 }
+
+.pillar:hover { border-color: var(--maroon-bdr); }
 
 .pillar-label {
   font-family: system-ui, -apple-system, sans-serif;
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--copper);
+  color: var(--maroon);
   margin-bottom: 0.4rem;
 }
 
@@ -295,9 +284,9 @@ nav {
   font-weight: 600;
 }
 
-.pillar p { font-size: 13px; line-height: 1.6; }
+.pillar p { font-size: 13px; line-height: 1.6; color: var(--muted); }
 
-/* ── Research section ───────────────────────────── */
+/* ── Research ── */
 .papers-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -309,16 +298,13 @@ nav {
   padding: 1.75rem;
   border: 1px solid var(--border);
   border-radius: 10px;
-  background: rgba(255,255,255,0.02);
+  background: var(--maroon-glow);
   transition: border-color 0.15s, background 0.15s;
-  text-decoration: none;
-  display: block;
 }
 
 .paper-card:hover {
-  border-color: rgba(184,134,78,0.30);
-  background: var(--copper-dim);
-  color: inherit;
+  border-color: var(--maroon-bdr);
+  background: var(--maroon-dim);
 }
 
 .paper-number {
@@ -326,7 +312,7 @@ nav {
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--copper);
+  color: var(--maroon);
   margin-bottom: 0.75rem;
 }
 
@@ -352,63 +338,36 @@ nav {
   color: var(--muted-2);
 }
 
-/* ── Platform section ───────────────────────────── */
-.platform-visual {
-  background: rgba(20,20,20,0.4);
-  border: 1px solid rgba(255,255,255,0.05);
+/* ── Platforms ── */
+.platform-card {
+  border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 1.5rem;
+  padding: 2rem;
+  background: var(--maroon-glow);
+  transition: border-color 0.15s;
 }
 
-.pv-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 0.4rem 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  font-family: system-ui, sans-serif;
-  font-size: 12px;
-}
-
-.pv-row:last-child { border-bottom: none; }
-.pv-label { color: #888; }
-.pv-val   { color: var(--warm); font-weight: 500; }
+.platform-card:hover { border-color: var(--maroon-bdr); }
 
 .sub-platforms {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
-  margin-top: 1.5rem;
+  margin-top: 3rem;
 }
 
 .sub-platform {
   padding: 1.5rem;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--border);
   border-radius: 10px;
-  background: rgba(255,255,255,0.02);
+  background: var(--maroon-glow);
   transition: border-color 0.15s;
-  text-decoration: none;
-  display: block;
 }
 
-.sub-platform:hover { border-color: var(--muted-2); }
+.sub-platform:hover { border-color: var(--maroon-bdr); }
 
-.sp-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  margin-bottom: 1rem;
-}
-
-.sp-name {
-  font-family: system-ui, sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  color: var(--warm);
-  margin-bottom: 0.3rem;
-}
-
-.sp-desc { font-size: 12px; line-height: 1.6; }
+.sp-dot { width: 8px; height: 8px; border-radius: 50%; margin-bottom: 1rem; }
+.sp-desc { font-size: 12px; line-height: 1.6; color: #AAA; }
 
 .chip {
   font-family: system-ui, sans-serif;
@@ -423,53 +382,47 @@ nav {
 .chip-green  { background: rgba(122,161,131,0.1); color: #7AA183; border-color: rgba(122,161,131,0.3); }
 .chip-orange { background: rgba(184,90,58,0.1); color: #B85A3A; border-color: rgba(184,90,58,0.3); }
 
-/* ── CIX Services ───────────────────────────────── */
+/* ── Services ── */
 .cixcult-block {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
   align-items: start;
   padding: 3rem;
-  border: 1px solid var(--copper-bdr);
+  border: 1px solid var(--maroon-bdr);
   border-radius: 14px;
-  background: var(--copper-dim);
+  background: var(--maroon-dim);
 }
 
 .entity-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
   font-family: system-ui, sans-serif;
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--copper);
-  background: rgba(184,134,78,0.10);
-  border: 1px solid var(--copper-bdr);
+  color: var(--maroon);
+  background: var(--maroon-dim);
+  border: 1px solid var(--maroon-bdr);
   padding: 4px 10px;
   border-radius: 20px;
   margin-bottom: 1.25rem;
 }
 
-.deployments {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-}
+.deployments { display: flex; flex-direction: column; gap: 0.85rem; }
 
 .deployment {
   padding: 1rem 1.25rem;
   border: 1px solid var(--border);
   border-radius: 8px;
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.02);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  text-decoration: none;
   transition: border-color 0.15s;
 }
 
-.deployment:hover { border-color: var(--copper-bdr); }
+.deployment:hover { border-color: var(--maroon-bdr); }
 .dep-name { font-family: system-ui, sans-serif; font-size: 13px; font-weight: 500; color: var(--warm); }
 .dep-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
 .dep-status {
@@ -481,18 +434,18 @@ nav {
   border-radius: 20px;
   white-space: nowrap;
 }
-.dep-live      { background: rgba(52,211,153,0.12); color: #34D399; border: 1px solid rgba(52,211,153,0.25); }
-.dep-research  { background: var(--copper-dim); color: var(--copper); border: 1px solid var(--copper-bdr); }
+.dep-live     { background: rgba(52,211,153,0.12); color: #34D399; border: 1px solid rgba(52,211,153,0.25); }
+.dep-research { background: var(--maroon-dim); color: var(--maroon); border: 1px solid var(--maroon-bdr); }
 
-/* ── Contact ────────────────────────────────────── */
+/* ── Contact ── */
 .contact-block {
-  padding: 4rem;
   background: var(--ink-2);
   border-top: 1px solid var(--border);
+  padding: 4rem 2rem;
   text-align: center;
 }
 
-/* ── Footer ─────────────────────────────────────── */
+/* ── Footer ── */
 footer {
   padding: 2rem;
   border-top: 1px solid var(--border);
@@ -506,21 +459,22 @@ footer {
   gap: 0.5rem;
 }
 
-/* ── Responsive ─────────────────────────────────── */
+footer a { color: var(--muted-2); text-decoration: none; transition: color 0.15s; }
+footer a:hover { color: var(--maroon); }
+
+/* ── Responsive ── */
 @media (max-width: 860px) {
-  .studio-grid,
-  .papers-grid,
-  .platforms-duo-grid,
-  .cixcult-block { grid-template-columns: 1fr; gap: 2rem; }
+  .studio-grid, .papers-grid, .cixcult-block { grid-template-columns: 1fr; gap: 2rem; }
   .sub-platforms { grid-template-columns: 1fr 1fr; }
+  .cixcult-block { padding: 2rem; }
 }
 
 @media (max-width: 540px) {
   .sub-platforms { grid-template-columns: 1fr; }
   .nav-links { display: none; }
   .hero { min-height: 80vh; }
-  .contact-block { padding: 3rem 1.5rem; }
   .section { padding: 4rem 1.25rem; }
+  .contact-block { padding: 3rem 1.5rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -545,14 +499,15 @@ footer {
 <header>
   <div class="hero">
     <div class="hero-eyebrow">
-      <span class="eyebrow">CIX Cultural · Venture Studio</span>
+      <span class="eyebrow">CIX Cultural · Public Benefit Studio</span>
+
+      <!-- 2/3 son clave: two beats | gap | three beats
+           The gap element is spatial (visible empty space),
+           not just a timing delay. -->
       <div class="clave" aria-hidden="true">
         <div class="clave-beat"></div>
         <div class="clave-beat"></div>
-        <div class="clave-beat"></div>
-        <div class="clave-beat"></div>
-        <div class="clave-beat"></div>
-        <div class="clave-beat"></div>
+        <div class="clave-gap"></div>
         <div class="clave-beat"></div>
         <div class="clave-beat"></div>
         <div class="clave-beat"></div>
@@ -564,7 +519,7 @@ footer {
     </div>
 
     <p class="hero-sub">
-      We translate complex macro-data, institutional funding streams, and economic metrics into open diagnostic architecture—building systemic transparency and resilience across cultural markets.
+      We translate complex macro-data, institutional funding streams, and economic metrics into open diagnostic architecture — building systemic transparency and resilience across cultural markets.
     </p>
 
     <div class="hero-links">
@@ -574,7 +529,7 @@ footer {
   </div>
 </header>
 
-<!-- Finalized Studio Section -->
+<!-- Studio -->
 <section class="section section--border" id="studio">
   <h2 class="eyebrow" style="margin-bottom: 3rem;">The studio</h2>
   <div class="studio-grid">
@@ -585,10 +540,8 @@ footer {
       <p>Our framework emerges from dynamical systems theory and is inspired by the mathematical structure of the Cuban clave, the rhythmic invariant that organizes complexity into legible patterns. By treating cultural platforms and public workflows as essential civic infrastructure, we provide independent benchmarking and clear decision architecture previously unavailable to the sector.</p>
     </div>
     <div>
-      <div class="studio-stat">
-        <div class="studio-stat-value">CIX</div>
-      </div>
-      <div class="studio-pillars" style="margin-top: 2rem;">
+      <div class="studio-stat-value">CIX</div>
+      <div class="studio-pillars">
         <div class="pillar">
           <div class="pillar-label">Civics</div>
           <div class="pillar-title">C — Civic Equity</div>
@@ -609,6 +562,7 @@ footer {
   </div>
 </section>
 
+<!-- Research -->
 <section class="section section--border" id="research">
   <h2 class="eyebrow" style="margin-bottom: 1rem;">Research programme</h2>
   <h3 class="display-sm" style="margin-bottom: 0.75rem;">The Organizational<br>Resilience Index (ORI)</h3>
@@ -617,84 +571,74 @@ footer {
   <div class="papers-grid">
     <div class="paper-card">
       <div class="paper-number">ORI Module I · Active Framework</div>
-      <div class="paper-title">Layer 1: Stress & Survival Underwriting</div>
-      <div class="paper-abstract">Decomposes absolute operational runway against a strict Structural Cost Floor. Introduces a Pressure Index that evaluates the existential threshold where fixed systemic costs consume gross revenue and derives the a PRI (Program-Related Investment) underwriting line to map philanthropic capital directly to organizational survival time.</div>
+      <div class="paper-title">Layer 1: Stress &amp; Survival Underwriting</div>
+      <div class="paper-abstract">Decomposes absolute operational runway against a strict Structural Cost Floor. Introduces a Pressure Index that evaluates the existential threshold where fixed systemic costs consume gross revenue and derives the PRI (Program-Related Investment) underwriting line to map philanthropic capital directly to organizational survival time.</div>
       <div class="paper-meta">· CIX Cultural Systems · Core Specification</div>
     </div>
-
     <div class="paper-card">
       <div class="paper-number">ORI Module II · Active Framework</div>
       <div class="paper-title">Layer 2: Return on Infrastructure Capital (ROIC)</div>
       <div class="paper-abstract">Redefines corporate ROIC for cultural markets. Establishes the Earned Ratio Baseline to evaluate an institution's structural dependency on continuous philanthropic intervention versus baseline box-office self-sufficiency.</div>
       <div class="paper-meta">· CIX Cultural Systems · Performance Taxonomy</div>
     </div>
-
     <div class="paper-card">
       <div class="paper-number">ORI Module III · In Progress</div>
-      <div class="paper-title">Layer 3: Asset Protection Value & Reserve Absorption</div>
+      <div class="paper-title">Layer 3: Asset Protection Value &amp; Reserve Absorption</div>
       <div class="paper-abstract">Adapts Adjusted Present Value (APV) modeling to quantify long-term organizational durability. Maps the multi-year timeline of negative operating surpluses against endowment liquidity depth, factoring in the Funding Stability Paradox and Debt Drag thresholds.</div>
-      <div class="paper-meta"> Forthcoming · CIX Cultural / Ingenio CIX</div>
+      <div class="paper-meta">Forthcoming · CIX Cultural / Ingenio CIX</div>
     </div>
   </div>
 </section>
 
+<!-- Platforms -->
 <section class="section section--border" id="platforms">
   <h2 class="eyebrow" style="margin-bottom: 3rem;">Platforms</h2>
 
-  <div class="platforms-duo-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 3rem; align-items: stretch; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 3rem;">
-    
-    <div class="platform-card" style="display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; border: 1px solid rgba(255,255,255,0.05); padding: 2rem; background: rgba(255,255,255,0.01);">
-      <div class="platform-meta">
-        <div class="platform-label" style="color: var(--sovereign-maroon); letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.75rem; font-weight: 600;">Flagship Product · CIX Cultural</div>
-        <div class="platform-name" style="color: var(--sovereign-maroon); font-size: 2.5rem; font-weight: 700; margin: 0.5rem 0 1rem 0;">ArtDaq</div>
-        <p class="platform-tagline" style="line-height: 1.6; margin-bottom: 2rem; color: #DDD; font-size: 0.95rem;">Cultural sector intelligence platform implementing the Organizational Resilience Index (ORI). Assesses structural risk, capitalization limits, and systemic friction across performing arts networks and civic infrastructure for administrators, philanthropic foundations, and labor networks.</p>
-        
-        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
-          <a href="https://artdaq.vercel.app" target="_blank" class="btn-primary" style="color: var(--sovereign-maroon); border-color: rgba(139,30,63,0.40); background: rgba(139,30,63,0.12); padding: 0.75rem 1.5rem; text-decoration: none; font-weight: bold; font-family: monospace; font-size: 0.8rem;">artdaq ↗</a>
-        </div>
-      </div>
-    </div> <div class="platform-card" style="display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; border: 1px solid rgba(255,255,255,0.05); padding: 2rem; background: rgba(255,255,255,0.01);">
-      <div class="platform-meta">
-        <div class="platform-label" style="color: #34D399; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.75rem; font-weight: 600;">Flagship Product · Citizen Infrastructure</div>
-        <div class="platform-name" style="color: #34D399; font-size: 2.5rem; font-weight: 700; margin: 0.5rem 0 1rem 0;">CourtNav</div>
-        <p class="platform-tagline" style="line-height: 1.6; margin-bottom: 2rem; color: #DDD; font-size: 0.95rem;">Citizen-facing decision architecture for *pro se* litigants navigating housing appeals. Translates complex municipal procedural pipelines into clear, actionable legal checkpoints—shielding unrepresented tenants from systemic defaults.</p>
-        
-        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
-          <a href="https://courtnav.vercel.app" target="_blank" class="btn-primary" style="color: #34D399; border-color: rgba(52,211,153,0.40); background: rgba(52,211,153,0.12); padding: 0.75rem 1.5rem; text-decoration: none; font-weight: bold; font-family: monospace; font-size: 0.8rem;">courtnav.vercel.app ↗</a>
-        </div>
-      </div>
-    </div> </div> <div class="sub-platforms" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem;">
-    
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 2rem; border-top: 1px solid var(--border); padding-top: 3rem;">
+    <div class="platform-card">
+      <div style="font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--maroon); font-weight: 600; margin-bottom: 0.5rem; font-family: system-ui, sans-serif;">Flagship Product · CIX Cultural</div>
+      <div style="font-size: 2.5rem; font-weight: 700; color: var(--maroon); margin: 0.5rem 0 1rem; font-family: system-ui, sans-serif; letter-spacing: -0.02em;">ArtDaq</div>
+      <p style="line-height: 1.6; margin-bottom: 2rem; font-size: 0.95rem;">Cultural sector intelligence platform implementing the Organizational Resilience Index (ORI). Assesses structural risk, capitalization limits, and systemic friction across performing arts networks and civic infrastructure for administrators, philanthropic foundations, and labor networks.</p>
+      <a href="https://artdaq.vercel.app" target="_blank" class="btn-primary">ArtDaq ↗</a>
+    </div>
+
+    <div class="platform-card">
+      <div style="font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--court); font-weight: 600; margin-bottom: 0.5rem; font-family: system-ui, sans-serif;">Citizen Infrastructure</div>
+      <div style="font-size: 2.5rem; font-weight: 700; color: var(--court); margin: 0.5rem 0 1rem; font-family: system-ui, sans-serif; letter-spacing: -0.02em;">CourtMotion</div>
+      <p style="line-height: 1.6; margin-bottom: 2rem; font-size: 0.95rem;">Citizen-facing decision architecture for <em>pro se</em> litigants navigating housing appeals. Translates complex municipal procedural pipelines into clear, actionable legal checkpoints — shielding unrepresented tenants from systemic defaults.</p>
+      <a href="https://courtnav.vercel.app" target="_blank" class="btn-ghost" style="border-color: rgba(52,211,153,0.30); color: var(--court);">courtnav.vercel.app ↗</a>
+    </div>
+  </div>
+
+  <div class="sub-platforms">
     <div class="sub-platform">
       <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
         <div class="sp-dot" style="background: #7AA183;"></div>
-        <div class="sp-name" style="color: #7AA183; font-family: monospace; font-weight: bold; font-size: 1.1rem;">ECI &amp; ORI</div>
+        <div style="font-family: monospace; font-weight: bold; font-size: 1.1rem; color: #7AA183;">ECI &amp; ORI</div>
       </div>
-      <p class="sp-desc" style="color: #AAA; font-size: 0.85rem; line-height: 1.5; margin-bottom: 1.25rem;">Economic Capacity Index &amp; Organizational Resilience Index. Combined quantitative diagnostic backends mapping capitalization minimums and risk vectors across civic ecosystems.</p>
-      <div><span class="chip chip-green">Core Engine Architecture</span></div>
+      <p class="sp-desc" style="margin-bottom: 1.25rem;">Economic Capacity Index &amp; Organizational Resilience Index. Combined quantitative diagnostic backends mapping capitalization minimums and risk vectors across civic ecosystems.</p>
+      <span class="chip chip-green">Core Engine Architecture</span>
     </div>
-
     <div class="sub-platform">
       <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
         <div class="sp-dot" style="background: #B85A3A;"></div>
-        <div class="sp-name" style="color: #B85A3A; font-family: monospace; font-weight: bold; font-size: 1.1rem;">Kaskazi</div>
+        <div style="font-family: monospace; font-weight: bold; font-size: 1.1rem; color: #B85A3A;">Kaskazi</div>
       </div>
-      <p class="sp-desc" style="color: #AAA; font-size: 0.85rem; line-height: 1.5; margin-bottom: 1.25rem;">Progressive distribution protocol designed to stream high-density public data feeds and index modules adaptively across low-bandwidth or volatile structural environments.</p>
-      <div><span class="chip chip-orange">Streaming Protocol</span></div>
+      <p class="sp-desc" style="margin-bottom: 1.25rem;">Progressive distribution protocol designed to stream high-density public data feeds and index modules adaptively across low-bandwidth or volatile structural environments.</p>
+      <span class="chip chip-orange">Streaming Protocol</span>
     </div>
-
   </div>
 </section>
 
-<!-- SERVICES SECTION -->
+<!-- Services -->
 <section class="section section--border" id="cixcultural">
   <h2 class="eyebrow" style="margin-bottom: 3rem;">Studio Capabilities</h2>
   <div class="cixcult-block">
     <div>
       <span class="entity-badge">Public Benefit Services</span>
-      <h3 class="display-sm" style="margin-bottom: 1.5rem; color: var(--copper);">Systemic Interventions</h3>
-      <p style="color: var(--muted); margin-bottom: 1.5rem;">We act as technical advisors and structural underwriters for the public good. CIX Cultural partners directly with administrative agencies, art and culture leaders, legacy networks, and legal networks to stabilize modern civic frameworks.</p>
-      <p style="color: var(--muted);">By translating operational data silos into scannable diagnostic architectures, we transform unreadable policy into direct public empowerment.</p>
+      <h3 class="display-sm" style="margin-bottom: 1.5rem; color: var(--maroon);">Systemic Interventions</h3>
+      <p style="margin-bottom: 1.5rem;">We act as technical advisors and structural underwriters for the public good. CIX Cultural partners directly with administrative agencies, art and culture leaders, legacy networks, and legal networks to stabilize modern civic frameworks.</p>
+      <p>By translating operational data silos into scannable diagnostic architectures, we transform unreadable policy into direct public empowerment.</p>
     </div>
     <div class="deployments">
       <div class="deployment">
@@ -722,20 +666,18 @@ footer {
   </div>
 </section>
 
-<!-- Finalized Contact Block -->
-<div class="contact-block" id="contact" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 4rem;">
+<!-- Contact -->
+<div class="contact-block" id="contact">
   <div class="eyebrow" style="margin-bottom: 1.5rem; display: block;">Institutional inquiries</div>
-  <div class="display-sm" style="margin-bottom: 1.5rem; color: #FFF; font-size: 2rem; font-weight: 700;">Engage the Studio</div>
-  <p style="line-height: 1.6; color: #DDD; max-width: 600px; margin-left: auto; margin-right: auto; margin-bottom: 2rem;">
+  <div class="display-sm" style="margin-bottom: 1.5rem; font-size: 2rem;">Engage the Studio</div>
+  <p style="color: var(--muted); max-width: 600px; margin: 0 auto 2rem; line-height: 1.7;">
     For philanthropic underwriting, strategic research collaborations, municipal integration, or institutional index access, reach us directly. We respond to inquiries from cultural sector administrators, foundational boards, policy networks, and labor advocates seeking to deploy data-driven resilience models.
   </p>
-  <a href="mailto:studio@cixcultural.org" class="btn-primary" style="display: inline-flex; align-items: center; color: var(--sovereign-maroon); border-color: rgba(139,30,63,0.40); background: rgba(139,30,63,0.12); padding: 0.75rem 1.5rem; text-decoration: none; font-weight: bold; font-family: monospace; font-size: 0.85rem;">
-    Contact CIX Cultural →
-  </a>
+  <a href="mailto:studio@cixcultural.org" class="btn-primary">studio@cixcultural.org →</a>
 </div>
 
 <footer>
-  <div>&copy; 2026 CIX Cultural. Built for public benefit.</div>
+  <div>© 2026 CIX Cultural · Built for public benefit · <a href="https://ingeniocix.com">Ingenio CIX</a></div>
   <div class="mono">SYSTEM_STATUS // LEGIBLE // ORI_v1.0</div>
 </footer>
 
