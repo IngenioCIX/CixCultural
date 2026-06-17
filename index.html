@@ -430,18 +430,20 @@ nav {
 .deployment {
   display: flex;
   gap: 1rem;
-  align-items: flex-start;
+  align-items: stretch;
 
   padding: 1rem 1.25rem;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: rgba(255,255,255,0.02);
+  margin-bottom: 0.85rem;
 
   transition: border-color 0.15s;
 }
   .deployment + .deployment {
   margin-top: 0.85rem;
 }
+  
 
 .deployment:hover { border-color: var(--maroon-bdr); }
 .dep-name { font-family: system-ui, sans-serif; font-size: 13px; font-weight: 500; color: var(--warm); }
@@ -478,6 +480,7 @@ nav {
   width: 100%;
   gap: 1rem;
 }
+  
 
 /* ── Contact ── */
 .contact-block {
