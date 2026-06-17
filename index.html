@@ -286,6 +286,24 @@ nav {
 
 .pillar p { font-size: 13px; line-height: 1.6; color: var(--muted); }
 
+  .pillar {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.pillar-image {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border-radius: 8px;
+}
+
+.pillar-content {
+  flex: 1;
+}
+
 /* ── Research ── */
 .papers-grid {
   display: grid;
@@ -542,21 +560,40 @@ footer a:hover { color: var(--maroon); }
     <div>
       <div class="studio-stat-value">CIX</div>
       <div class="studio-pillars">
+        
         <div class="pillar">
+           <img src="images/civic-equity.jpg"
+                alt="Federal Theater Project Image"
+                class="pillar-image">
+          <div class="pillar-content">
           <div class="pillar-label">Civics</div>
           <div class="pillar-title">C — Civic Equity</div>
           <p>Diagnostic architecture that decentralizes institutional intelligence, granting labor networks merited footing in funding landscapes, while providing grounded decision frameworks that empower everyday citizens to navigate intimidating municipal systems.</p>
         </div>
+       </div>
+          
         <div class="pillar">
+          <img src="images/infrastructure-map.jpg"
+                alt="Historic Image of Infrastructure"
+                class="pillar-image">
+          <div class="pillar-content">
           <div class="pillar-label">Infrastructure</div>
           <div class="pillar-title">I — Resilience Infrastructure</div>
-          <p>High-density data modeling and index systems that track structural risk, capitalization limits, and resource distribution across cultural markets and civil asset ecosystems.</p>
+            <p>High-density data modeling and index systems that track structural risk, capitalization limits, and resource distribution across cultural markets and civil asset ecosystems.</p>
+          </div>
         </div>
+          
         <div class="pillar">
+          <img src="images/legibility-experience.jpg"
+                alt="Children at New Orleans Theater"
+                class="pillar-image">
+          <div class="pillar-content">
           <div class="pillar-label">Experience</div>
           <div class="pillar-title">X — Legibility Experience</div>
           <p>Archival-grade terminal interfaces built to make massive datasets immediately scannable, legible, and actionable for administrators, researchers, and citizens.</p>
-        </div>
+        </div>  
+          
+      </div>
       </div>
     </div>
   </div>
