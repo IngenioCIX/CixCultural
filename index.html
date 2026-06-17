@@ -454,6 +454,27 @@ nav {
 }
 .dep-live     { background: rgba(52,211,153,0.12); color: #34D399; border: 1px solid rgba(52,211,153,0.25); }
 .dep-research { background: var(--maroon-dim); color: var(--maroon); border: 1px solid var(--maroon-bdr); }
+  .deployment {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.deployment-image {
+  width: 70px;
+  height: 70px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+.deployment-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+}
 
 /* ── Contact ── */
 .contact-block {
@@ -614,14 +635,14 @@ footer a:hover { color: var(--maroon); }
     </div>
     <div class="paper-card">
       <div class="paper-number">ORI Module II · Active Framework</div>
-      <div class="paper-title">Layer 2: Return on Infrastructure Capital (ROIC)</div>
-      <div class="paper-abstract">Redefines corporate ROIC for cultural markets. Establishes the Earned Ratio Baseline to evaluate an institution's structural dependency on continuous philanthropic intervention versus baseline box-office self-sufficiency.</div>
+      <div class="paper-title">Layer 2: Return on Infrastructure Capital </div>
+      <div class="paper-abstract">Establishes the Earned Ratio Baseline to evaluate an institution's structural dependency on continuous philanthropic intervention versus baseline box-office self-sufficiency.</div>
       <div class="paper-meta">· CIX Cultural Systems · Performance Taxonomy</div>
     </div>
     <div class="paper-card">
       <div class="paper-number">ORI Module III · In Progress</div>
       <div class="paper-title">Layer 3: Asset Protection Value &amp; Reserve Absorption</div>
-      <div class="paper-abstract">Adapts Adjusted Present Value (APV) modeling to quantify long-term organizational durability. Maps the multi-year timeline of negative operating surpluses against endowment liquidity depth, factoring in the Funding Stability Paradox and Debt Drag thresholds.</div>
+      <div class="paper-abstract">Quantifies long-term organizational durability. Maps the multi-year timeline of negative operating surpluses against endowment liquidity depth, factoring in the Funding Stability Paradox and Debt Drag thresholds.</div>
       <div class="paper-meta">Forthcoming · CIX Cultural / Ingenio CIX</div>
     </div>
   </div>
@@ -659,7 +680,7 @@ footer a:hover { color: var(--maroon); }
     <div class="sub-platform">
       <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
         <div class="sp-dot" style="background: #B85A3A;"></div>
-        <div style="font-family: monospace; font-weight: bold; font-size: 1.1rem; color: #B85A3A;">Kaskazi</div>
+        <div style="font-family: monospace; font-weight: bold; font-size: 1.1rem; color: #B85A3A;">Special Project</div>
       </div>
       <p class="sp-desc" style="margin-bottom: 1.25rem;">Progressive distribution protocol designed to stream high-density public data feeds and index modules adaptively across low-bandwidth or volatile structural environments.</p>
       <span class="chip chip-orange">Streaming Protocol</span>
@@ -679,27 +700,35 @@ footer a:hover { color: var(--maroon); }
     </div>
     <div class="deployments">
       <div class="deployment">
-        <div>
+        <img src="images/structural-audit.jpg" class="deployment-image" alt="Structural audit visualization">
+        <div class="deployment-content">
           <div class="dep-name">Structural Audits</div>
           <div class="dep-desc">High-density stress testing for arts networks.</div>
         </div>
         <span class="dep-status dep-live">Active</span>
       </div>
+    <div>
+      
       <div class="deployment">
-        <div>
+        <img src="images/pipeline-map.jpg" class="deployment-image" alt="Pipelines">
+        <div class="deployment-content">
           <div class="dep-name">Procedural Pipeline Mapping</div>
           <div class="dep-desc">Reconstructing municipal workflows for civic clarity.</div>
         </div>
         <span class="dep-status dep-live">Active</span>
       </div>
+    <div>
+        
       <div class="deployment">
-        <div>
+        <img src="images/custom-data.jpg" class="deployment-image" alt="Pipelines">
+        <div class="deployment-content">
           <div class="dep-name">Custom Data Infrastructure</div>
           <div class="dep-desc">Tailored open index builds and analytics dashboards.</div>
         </div>
         <span class="dep-status dep-research">In Research</span>
       </div>
     </div>
+    <div>
   </div>
 </section>
 
